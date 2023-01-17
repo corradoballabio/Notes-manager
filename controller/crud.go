@@ -44,6 +44,25 @@ func crud() http.HandlerFunc {
 			}
 
 			json.NewEncoder(w).Encode(data)
+		} else if r.Method == http.MethodDelete {
+			name := r.URL.Path[1:]
+
+			if len(name) < 1 {
+				w.Write([]byte("Error: no id specified in a delete call"))
+				return
+			}
+
+			if err := model.Delete(name); err != nil {
+				fmt.Println(err)
+				w.Write([]byte("Internal Error: "))
+				w.Write([]byte(err.Error()))
+				return
+			}
+
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(struct{
+				Status string `json:"status"`
+			}{"Item Deleted"})
 		}
 	}
 }
