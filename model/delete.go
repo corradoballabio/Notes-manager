@@ -1,7 +1,7 @@
 package model
 
-func Delete(name string) error {
-	deletion, err := con.Query("DELETE FROM TODO WHERE name = ?", name)
+func Delete(title string) error {
+	deletion, err := con.Query("DELETE FROM Note WHERE title = ?", title)
 
 	if err != nil {
 		return err

@@ -1,7 +1,7 @@
 package model
 
-func Create(name, todo string) error {
-	insertQ, err := con.Query("INSERT INTO TODO VALUES(?, ?)", name, todo)
+func Create(title, body string) error {
+	insertQ, err := con.Query("INSERT INTO Note VALUES(?, ?)", title, body)
 
 	if err != nil {
 		return err

@@ -4,44 +4,44 @@ import (
 	"../view"
 )
 
-func ReadAll() ([]view.TodoTable, error) {
-	rows, err := con.Query("SELECT name, todo FROM TODO")
+func ReadAll() ([]view.NoteTable, error) {
+	rows, err := con.Query("SELECT title, body FROM Note")
 
 	if err != nil {
 		return nil, err
 	}
 
-	todos := []view.TodoTable{}
+	notes := []view.NoteTable{}
 
 	defer rows.Close()
 
 	for rows.Next() {
-		data := view.TodoTable{}
-		rows.Scan(&data.Name, &data.Todo)
+		data := view.NoteTable{}
+		rows.Scan(&data.Title, &data.Body)
 
-		todos = append(todos, data)
+		notes = append(notes, data)
 	}
 
-	return todos, nil
+	return notes, nil
 }
 
-func ReadByName(name string) ([]view.TodoTable, error) {
-	rows, err := con.Query("SELECT name, todo FROM TODO WHERE Name = ?", name)
+func ReadByTitle(title string) ([]view.NoteTable, error) {
+	rows, err := con.Query("SELECT title, body FROM Note WHERE title = ?", title)
 
 	if err != nil {
 		return nil, err
 	}
 
-	todos := []view.TodoTable{}
+	notes := []view.NoteTable{}
 
 	defer rows.Close()
 
 	for rows.Next() {
-		data := view.TodoTable{}
-		rows.Scan(&data.Name, &data.Todo)
+		data := view.NoteTable{}
+		rows.Scan(&data.Title, &data.Body)
 
-		todos = append(todos, data)
+		notes = append(notes, data)
 	}
 
-	return todos, nil
+	return notes, nil
 }
