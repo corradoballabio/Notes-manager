@@ -24,6 +24,26 @@ func crud() http.HandlerFunc {
 
 			w.WriteHeader(http.StatusCreated)
 			json.NewEncoder(w).Encode(&data)
+		} else if r.Method == http.MethodGet {
+			var data []view.TodoTable
+			var err error
+
+			name := r.URL.Query().Get("name")
+
+			if len(name) < 1 {
+				data, err = model.ReadAll()
+			} else {
+				data, err = model.ReadByName(name[:])
+			}
+
+			if err != nil {
+				fmt.Println(err)
+				w.Write([]byte("Internal Error: "))
+				w.Write([]byte(err.Error()))
+				return
+			}
+
+			json.NewEncoder(w).Encode(data)
 		}
 	}
 }
